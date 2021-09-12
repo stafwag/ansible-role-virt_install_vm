@@ -60,7 +60,7 @@ See the **Usage** section for an example.
 
 ## Create a virtual machine template
 
-This is a file with the role variables to set set up a virtual machine with all the common settings for the virtual machine.
+This is a file with the role variables to set set up a virtual machine with all the common settings for the virtual machines.
 In this example ```vm.hostname``` and ```vm.ip_address``` can be configured
 for each virtual machine.
 
