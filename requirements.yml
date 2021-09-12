@@ -1,0 +1,9 @@
+---
+- src: https://github.com/stafwag/ansible-role-qemu_img
+  name: stafwag.qemu_img
+
+- src: https://github.com/stafwag/ansible-role-cloud_localds
+  name: stafwag.cloud_localds
+
+- src: https://github.com/stafwag/ansible-role-virt_install_import
+  name: stafwag.virt_install_import

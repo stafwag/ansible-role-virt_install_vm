@@ -1,0 +1,40 @@
+---
+- name: Display the vm var
+  debug:
+    msg: "vm = {{ vm }}"
+  tags:
+    - debug
+    - never
+
+- name: Get the vm status
+  virt:
+    command: list_vms
+    name: "{{ vm.hostname }}"
+  register:
+    _vmStatus
+- name: Display the status
+  debug:
+    msg: "_vmStatus: {{ _vmStatus }}"
+    msg: "_vmStatus.list_vms: {{ _vmStatus.list_vms }}"
+    msg: "_vmStatus.list_vms length: {{ _vmStatus.list_vms | length }}"
+  tags:
+    - debug
+    - never
+
+- name: Fail if vm is already defined
+  fail:
+    msg:
+      - "Sorry, {{ vm.hostname }} is already defined"
+  when:
+    - _vmStatus.list_vms | length != 0
+
+- name: "Include role"
+  include_role:
+    name: "{{ myrole }}"
+  loop:
+    - stafwag.libvirt
+    - stafwag.qemu_img
+    - stafwag.cloud_localds
+    - stafwag.virt_install_import
+  loop_control:
+    loop_var: myrole

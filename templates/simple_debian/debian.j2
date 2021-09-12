@@ -1,0 +1,52 @@
+{% set cloud_config = cloud_localds.cloud_config %}
+#cloud-config
+system_info:
+  package_upgrade: true
+  default_user:
+    name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
+    groups: wheel
+{% if cloud_config.system_info.default_user.passwd is defined %}
+    lock_passwd: false
+    passwd: {{ cloud_config.system_info.default_user.passwd }}
+{% else %}
+    lock_passwd: true
+{% endif %}
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+{% if  cloud_config.system_info.default_user.ssh_authorized_keys is defined %}
+    ssh_authorized_keys:
+{% for key in cloud_config.system_info.default_user.ssh_authorized_keys %}
+      - {{ key }}
+{% endfor %}
+{% endif %}
+
+write_files:
+- content: |
+    # This file describes the network interfaces available on your system
+    # and how to activate them. For more information, see interfaces(5).
+    auto lo
+    iface lo inet loopback
+        {% if cloud_config.network.dns_nameservers is defined %}dns-nameservers {{ cloud_config.network.dns_nameservers }}{% endif %}
+        {% if cloud_config.dns_search is defined %}dns-search {{ cloud_config.dns_search }}{% endif %}
+
+
+    {% if cloud_config.network.interface is defined %}auto {{ cloud_config.network.interface.name }}
+    iface {{ cloud_config.network.interface.name }} inet static
+        address {{ cloud_config.network.interface.address }}
+        gateway {{ cloud_config.network.interface.gateway }}
+    {% endif %}
+        
+    source /etc/network/interfaces.d/*	
+  path: /etc/network/interfaces
+{% if cloud_config.network.interface is defined %}
+runcmd:
+  - ifdown {{ cloud_config.network.interface.name }}
+  - ifup {{ cloud_config.network.interface.name }}
+{% endif %}
+{% if cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
+  - systemctl disable cloud-init
+{% endif %}
+{% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
+  - sleep 20
+  - reboot
+{% endif %}
