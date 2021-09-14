@@ -1,4 +1,6 @@
-# Ansible Role: install_virt_vm
+# Ansible Role: virt_install_vm
+
+***This is still a pre-release.***
 
 An Ansible role to install a libvirt virtual machine with ```virt-install```
 and ```cloud-init```. It is "designed" to be flexible.
