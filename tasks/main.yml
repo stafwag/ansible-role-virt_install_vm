@@ -6,27 +6,35 @@
     - debug
     - never
 
-- name: Get the vm status
-  virt:
-    command: list_vms
-    name: "{{ vm.hostname }}"
-  register:
-    _vmStatus
+- name: Detect if the vm is already defined
+  block:
+    - name: Get the vm status
+      virt:
+        command: status
+        name: "{{ vm.hostname }}"
+      register:
+        _vmStatus
+      ignore_errors: yes
+  rescue:
+    - debug:
+        msg:
+          - "Failed to get the vm status"
+          - "Which is a good thing"
+
 - name: Display the status
   debug:
     msg: "_vmStatus: {{ _vmStatus }}"
-    msg: "_vmStatus.list_vms: {{ _vmStatus.list_vms }}"
-    msg: "_vmStatus.list_vms length: {{ _vmStatus.list_vms | length }}"
   tags:
     - debug
     - never
 
-- name: Fail if vm is already defined
+- name: Fail if the vm is already defined
   fail:
     msg:
       - "Sorry, {{ vm.hostname }} is already defined"
   when:
-    - _vmStatus.list_vms | length != 0
+    - not _vmStatus.failed
+    - _vmStatus.msg is not regex(".*not found.*")
 
 - name: "Include role"
   include_role:
