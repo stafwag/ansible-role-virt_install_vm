@@ -80,7 +80,7 @@ qemu_img:
 cloud_localds:
   dest: "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso"
   config_template: "templates/simple_debian/debian.j2"
-  network_config_template: "templates/simple_debian/debian.j2"
+  network_config_template: "templates/simple_debian/debian_netconfig.j2"
   cloud_config:
     system_info:
       default_user:
