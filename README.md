@@ -95,7 +95,7 @@ cloud_localds:
         intern.local
       interface:
         name:
-          emp1s0
+          enp1s0
         address:
           "{{ vm.ip_address }}"
         gateway:
