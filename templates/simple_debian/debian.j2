@@ -22,6 +22,11 @@ system_info:
 
 write_files:
 - content: |
+  path:  /etc/cloud/cloud-init.disabled
+- content: |
+    network: {config: disabled}
+  path: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+- content: |
     # This file describes the network interfaces available on your system
     # and how to activate them. For more information, see interfaces(5).
     auto lo
@@ -40,6 +45,7 @@ write_files:
   path: /etc/network/interfaces
 {% if cloud_config.network.interface is defined %}
 runcmd:
+  - rm /etc/network/interfaces.d/*cloud-init
   - ifdown {{ cloud_config.network.interface.name }}
   - ifup {{ cloud_config.network.interface.name }}
 {% endif %}
