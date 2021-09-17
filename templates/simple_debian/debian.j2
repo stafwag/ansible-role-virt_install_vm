@@ -21,11 +21,13 @@ system_info:
 {% endif %}
 
 write_files:
+{% if cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
 - content: |
   path:  /etc/cloud/cloud-init.disabled
 - content: |
     network: {config: disabled}
   path: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+{% endif %}
 - content: |
     # This file describes the network interfaces available on your system
     # and how to activate them. For more information, see interfaces(5).
@@ -45,12 +47,11 @@ write_files:
   path: /etc/network/interfaces
 {% if cloud_config.network.interface is defined %}
 runcmd:
+{% if cloud_config.network.interface is defined and cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
   - rm /etc/network/interfaces.d/*cloud-init
+{% endif %}
   - ifdown {{ cloud_config.network.interface.name }}
   - ifup {{ cloud_config.network.interface.name }}
-{% endif %}
-{% if cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
-  - systemctl disable cloud-init
 {% endif %}
 {% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
   - sleep 20
