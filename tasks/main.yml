@@ -1,7 +1,9 @@
 ---
-- name: Display the vm var
+- name: Display debug vars
   debug:
-    msg: "vm = {{ vm }}"
+    msg:
+      - "vm = {{ vm|default('not set (undefined)') }}"
+      - "virt_install_vm = {{ virt_install_vm|default('not set (undefined)') }}"
   tags:
     - debug
     - never
@@ -28,21 +30,26 @@
     - debug
     - never
 
-- name: Fail if the vm is already defined
-  fail:
-    msg:
-      - "Sorry, {{ vm.hostname }} is already defined"
-  when:
-    - not _vmStatus.failed
-    - _vmStatus.msg is not regex(".*not found.*")
+- name: Deploy the virtual machine
+  block:
+    - name: Fail if the vm is already defined
+      fail:
+        msg:
+          - "Sorry, {{ vm.hostname }} is already defined"
+      when:
+        - not _vmStatus.failed
+        - _vmStatus.exception.msg is not regex(".*not found.*")
 
-- name: "Include role"
-  include_role:
-    name: "{{ myrole }}"
-  loop:
-    - stafwag.libvirt
-    - stafwag.qemu_img
-    - stafwag.cloud_localds
-    - stafwag.virt_install_import
-  loop_control:
-    loop_var: myrole
+    - name: "Include role"
+      include_role:
+        name: "{{ myrole }}"
+      loop:
+        - stafwag.libvirt
+        - stafwag.qemu_img
+        - stafwag.cloud_localds
+        - stafwag.virt_install_import
+      loop_control:
+        loop_var: myrole
+  when:
+    - not virt_install_vm.skip_if_deployed|default(false) or
+      _vmStatus.status is not defined

@@ -1,7 +1,5 @@
 # Ansible Role: virt_install_vm
 
-***This is still a pre-release.***
-
 An Ansible role to install a libvirt virtual machine with ```virt-install```
 and ```cloud-init```. It is "designed" to be flexible.
 
@@ -49,6 +47,14 @@ to use it role on Centos/RedHat 8.
 
 See the documentation of the roles in the **Requirements** section.
 
+* **virt_install_vm**: "namespace"
+
+  * **skip_if_deployed**: boolean default: false.
+
+                              When true:
+                                Skip role if the VM is already deployed. The role will exit successfully.
+                              When false:
+                                The role will exit with an error if the VM is already deployed.
 
 ### Templates.
 
