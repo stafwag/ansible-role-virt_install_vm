@@ -53,6 +53,10 @@ runcmd:
   - ifdown {{ cloud_config.network.interface.name }}
   - ifup {{ cloud_config.network.interface.name }}
 {% endif %}
+{% if cloud_config.poweroff is defined and cloud_config.poweroff is sameas true %}
+  - sleep 20
+  - poweroff
+{% endif %}
 {% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
   - sleep 20
   - reboot
