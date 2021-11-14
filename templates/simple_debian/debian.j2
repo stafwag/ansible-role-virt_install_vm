@@ -5,7 +5,7 @@ system_info:
   default_user:
     name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
     groups: wheel
-{% if cloud_config.system_info.default_user.passwd is defined %}
+{% if cloud_config.system_info.default_user.passwd is defined and cloud_config.system_info.default_user.passwd is not sameas false %}
     lock_passwd: false
     passwd: {{ cloud_config.system_info.default_user.passwd }}
 {% else %}
@@ -36,7 +36,6 @@ write_files:
         {% if cloud_config.network.dns_nameservers is defined %}dns-nameservers {{ cloud_config.network.dns_nameservers }}{% endif %}
         {% if cloud_config.dns_search is defined %}dns-search {{ cloud_config.dns_search }}{% endif %}
 
-
     {% if cloud_config.network.interface is defined %}auto {{ cloud_config.network.interface.name }}
     iface {{ cloud_config.network.interface.name }} inet static
         address {{ cloud_config.network.interface.address }}
@@ -53,11 +52,16 @@ runcmd:
   - ifdown {{ cloud_config.network.interface.name }}
   - ifup {{ cloud_config.network.interface.name }}
 {% endif %}
+{% if cloud_config.commands is defined %}
+{% for cmd in cloud_config.commands %}
+  - {{ cmd }}  
+{% endfor %}
+{% endif %}
 {% if cloud_config.poweroff is defined and cloud_config.poweroff is sameas true %}
-  - sleep 20
+  - sleep 5
   - poweroff
 {% endif %}
 {% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
-  - sleep 20
+  - sleep 5
   - reboot
 {% endif %}
