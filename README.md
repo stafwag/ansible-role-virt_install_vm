@@ -9,6 +9,8 @@ An example template is provided to set up a Debian system.
 
 The role is wrapper around the following roles:
 
+  * **stafwag.libvirt**:
+    [https://github.com/stafwag/ansible-role-libvirt](https://github.com/stafwag/ansible-role-libvirt)
   * **stafwag.qemu_img**:
     [https://github.com/stafwag/ansible-role-qemu_img](https://github.com/stafwag/ansible-role-qemu_img)
   * **stafwag.cloud_localds**:
@@ -43,26 +45,48 @@ to use it role on Centos/RedHat 8.
 
 ## Role Variables and templates
 
-### Variables
+### Role Variables
 
 See the documentation of the roles in the **Requirements** section.
 
 * **virt_install_vm**: "namespace"
 
-  * **skip_if_deployed**: boolean default: false.
+  * **skip_if_deployed**: boolean default: false. \
 
-                              When true:
-                                Skip role if the VM is already deployed. The role will exit successfully.
-                              When false:
-                                The role will exit with an error if the VM is already deployed.
+    * **When true**: \
+      Skip role if the VM is already deployed. The role will exit successfully. \
+    * **When false**: \
+      The role will exit with an error if the VM is already deployed.
 
-### Templates.
+### Templates
 
-* ```templates/simple_debian```: Example template to create a Debian virtual machine.
+#### Templates files
 
-This template use ```cloud_localds.cloudinfo``` to configure the cloud-init ```user-data```.
+* ```templates/simple_debian```: Example template to create a Debian virtual machine. \
+  This template use ```cloud_localds.cloudinfo``` to configure the cloud-init ```user-data```. \
+  See the **Usage** section for an example.
 
-See the **Usage** section for an example.
+#### Template variabeles
+
+The template uses the following variabeles.
+
+* **cloud_localds.cloud_config**: 
+  * **system_info**:
+    * **default_user**: The default user
+      * **name**: Optional. Default: ```debian```
+      * **passwd**: Optional. Default: ```false```. When set to ```false``` the user will be locked.
+      * **ssh_authorized_keys**: An array with the authorized_key array.
+  * **disable_cloud_init**: Optional. Default ```undefined```. When set to true. cloud-init will be disabled on the VM.
+  * **network**:
+      * **dns_nameservers**: List with the nameservers.
+      * **dns_search**: The dns search string.
+      * **interface**: The default network interface to configure.
+          * **name**: The interface name.
+          * **address**: The ip address.
+          * **gateway**: The gateway.
+  * **commands**: Array with command to execute on the VM.
+  * **poweroff**: Poeroff the VM after the VM is installed.
+  * **reboot**: Reboot the VM after the VM is installed.
 
 # Usage
 
