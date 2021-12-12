@@ -7,7 +7,7 @@ An example template is provided to set up a Debian system.
 
 ## Requirements
 
-The role is wrapper around the following roles:
+The role is a wrapper around the following roles:
 
   * **stafwag.libvirt**:
     [https://github.com/stafwag/ansible-role-libvirt](https://github.com/stafwag/ansible-role-libvirt)
@@ -33,9 +33,9 @@ Or follow the installation instruction for each role on Ansible Galaxy.
 ### Supported GNU/Linux Distributions
 
 It should work on most GNU/Linux distributions.
-```cloud-cloudds``` is required. ```cloud-clouds``` was available on
+```cloud-localds``` is required. ```cloud-localds``` was available on
 Centos/RedHat 7 but not on Redhat 8. You'll need to install it manually
-to use it role on Centos/RedHat 8.
+to use the role on Centos/RedHat 8.
 
 * Archlinux
 * Debian
