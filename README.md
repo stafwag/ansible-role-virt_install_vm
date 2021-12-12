@@ -66,9 +66,9 @@ See the documentation of the roles in the **Requirements** section.
   This template use ```cloud_localds.cloudinfo``` to configure the cloud-init ```user-data```. \
   See the **Usage** section for an example.
 
-#### Template variabeles
+#### Template variables
 
-The template uses the following variabeles.
+The template uses the following variables.
 
 * **cloud_localds.cloud_config**: 
   * **system_info**:
@@ -84,7 +84,7 @@ The template uses the following variabeles.
           * **name**: The interface name.
           * **address**: The ip address.
           * **gateway**: The gateway.
-  * **commands**: Array with command to execute on the VM.
+  * **commands**: Array with commands to execute on the VM.
   * **poweroff**: Poeroff the VM after the VM is installed.
   * **reboot**: Reboot the VM after the VM is installed.
 
