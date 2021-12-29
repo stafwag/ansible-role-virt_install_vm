@@ -1,4 +1,9 @@
 ---
+- name: Set virt_install_vm_installed to false
+  set_fact:
+    virt_install_vm_installed:
+      False
+
 - name: Display debug vars
   debug:
     msg:
@@ -29,7 +34,7 @@
   tags:
     - debug
     - never
-
+        
 - name: Deploy the virtual machine
   block:
     - name: Fail if the vm is already defined
@@ -50,6 +55,19 @@
         - stafwag.virt_install_import
       loop_control:
         loop_var: myrole
+
+    - name: Set virt_install_vm_installed to true
+      set_fact:
+        virt_install_vm_installed:
+          True
   when:
     - not virt_install_vm.skip_if_deployed|default(false) or
       _vmStatus.status is not defined
+
+- name: Display virt_install_vm_installed
+  debug:
+    msg:
+      - "virt_install_vm_installed: {{ virt_install_vm_installed }}"
+  tags:
+    - never
+    - debug

@@ -58,6 +58,12 @@ See the documentation of the roles in the **Requirements** section.
     * **When false**: \
       The role will exit with an error if the VM is already deployed.
 
+Return values:
+
+  * **virt_install_vm_installed**:
+    Default: ```false```.
+    Set to ```true``` when the vm is installed by the role.
+
 ### Templates
 
 #### Templates files
