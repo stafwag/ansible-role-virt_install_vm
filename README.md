@@ -18,9 +18,34 @@ The role is a wrapper around the following roles:
   * **stafwag.virt_install_import**:
     [https://github.com/stafwag/ansible-role-virt_install_import](https://github.com/stafwag/ansible-role-virt_install_import)
 
+# Installation
+
+## Ansible galaxy
+
+The role is available on [Ansible Galaxy](https://galaxy.ansible.com/stafwag/virt_install_import).
+
+To install the role from Ansible Galaxy execute the command below. 
+This will install the role with the dependencies.
+
+```bash
+$ ansible-galaxy install stafwag.virt_install_import
+```
+
+## Source Code
+
+If you want to use the source code directly.
+
+Clone the role source code.
+
+```bash
+$ git clone https://github.com/stafwag/ansible-role-virt_install_vm
+```
+
+and put into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
+
 Install the required roles with
 
-```
+```bash
 $ ansible-galaxy install -r requirements.yml
 ```
 
@@ -104,7 +129,7 @@ for each virtual machine.
 
 * **debian_vm_template.yml:**
 
-```
+```yaml
 qemu_img:
   dest: "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2"
   format: qcow2
@@ -155,7 +180,7 @@ virt_install_import:
 
 Playbook to setup a virtual machine: 
 
-```
+```yaml
 - name: Install tstdebian2
   hosts: kvmhost
   become: true
