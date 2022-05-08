@@ -1,9 +1,4 @@
 ---
-dependencies:
-  - src: stafwag.qemu_img
-  - src: stafwag.cloud_localds
-  - src: stafwag.virt_install_import
-
 galaxy_info:
   role_name: virt_install_vm
   author: staf wagemakers <staf@wagemakers.be>
@@ -36,3 +31,4 @@ galaxy_info:
     - system
     - cloud-init
     - virtualization
+dependencies: []

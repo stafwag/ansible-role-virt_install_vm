@@ -18,6 +18,18 @@ The role is a wrapper around the following roles:
   * **stafwag.virt_install_import**:
     [https://github.com/stafwag/ansible-role-virt_install_import](https://github.com/stafwag/ansible-role-virt_install_import)
 
+Install the required roles with
+
+```bash
+$ ansible-galaxy install -r requirements.yml
+```
+
+this will install the latest default branch releases.
+
+Or follow the installation instruction for each role on Ansible Galaxy.
+
+[https://galaxy.ansible.com/stafwag](https://galaxy.ansible.com/stafwag)
+
 # Installation
 
 ## Ansible galaxy
@@ -42,18 +54,6 @@ $ git clone https://github.com/stafwag/ansible-role-virt_install_vm
 ```
 
 and put into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
-
-Install the required roles with
-
-```bash
-$ ansible-galaxy install -r requirements.yml
-```
-
-this will install the latest default branch releases.
-
-Or follow the installation instruction for each role on Ansible Galaxy.
-
-[https://galaxy.ansible.com/stafwag](https://galaxy.ansible.com/stafwag)
 
 ### Supported GNU/Linux Distributions
 
