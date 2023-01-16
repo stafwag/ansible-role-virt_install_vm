@@ -36,8 +36,7 @@ Or follow the installation instruction for each role on Ansible Galaxy.
 
 The role is available on [Ansible Galaxy](https://galaxy.ansible.com/stafwag/virt_install_import).
 
-To install the role from Ansible Galaxy execute the command below. 
-This will install the role with the dependencies.
+To install the role from Ansible Galaxy execute the command below.
 
 ```bash
 $ ansible-galaxy install stafwag.virt_install_import
