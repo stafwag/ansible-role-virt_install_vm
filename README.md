@@ -1,9 +1,12 @@
 # Ansible Role: virt_install_vm
 
 An Ansible role to install a libvirt virtual machine with ```virt-install```
-and ```cloud-init```. It is "designed" to be flexible.
+and ```cloud-init```. It is "designed" to be flexible.\
 
-An example template is provided to set up a Debian system.
+Example [templates](templates/) are provided to set up a Debian 11 and a Debian 12 systems.
+The cloud-init templates should work with other (GNU)/Linux systems that supports cloud-init.\
+
+But there are (currently) only tested with Debian GNU/Linux.
 
 ## Requirements
 
@@ -129,6 +132,7 @@ for each virtual machine.
 * **debian_vm_template.yml:**
 
 ```yaml
+---
 qemu_img:
   dest: "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2"
   format: qcow2
@@ -180,6 +184,7 @@ virt_install_import:
 Playbook to setup a virtual machine: 
 
 ```yaml
+---
 - name: Install tstdebian2
   hosts: kvmhost
   become: true
