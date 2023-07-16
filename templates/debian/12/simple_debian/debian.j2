@@ -4,7 +4,7 @@ system_info:
   package_upgrade: true
   default_user:
     name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
-    groups: wheel
+    groups: sudo
 {% if cloud_config.system_info.default_user.passwd is defined and cloud_config.system_info.default_user.passwd is not sameas false %}
     lock_passwd: false
     passwd: {{ cloud_config.system_info.default_user.passwd }}
