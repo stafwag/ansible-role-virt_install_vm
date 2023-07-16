@@ -1,0 +1,44 @@
+{% set cloud_config = cloud_localds.cloud_config %}
+#cloud-config
+system_info:
+  package_upgrade: true
+  default_user:
+    name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
+    groups: wheel
+{% if cloud_config.system_info.default_user.passwd is defined and cloud_config.system_info.default_user.passwd is not sameas false %}
+    lock_passwd: false
+    passwd: {{ cloud_config.system_info.default_user.passwd }}
+{% else %}
+    lock_passwd: true
+{% endif %}
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+{% if cloud_config.system_info.default_user.ssh_authorized_keys is defined %}
+    ssh_authorized_keys:
+{% for key in cloud_config.system_info.default_user.ssh_authorized_keys %}
+      - {{ key }}
+{% endfor %}
+{% endif %}
+
+write_files:
+{% if cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
+- content: |
+  path:  /etc/cloud/cloud-init.disabled
+- content: |
+    network: {config: disabled}
+  path: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+{% endif %}
+runcmd:
+{% if cloud_config.commands is defined %}
+{% for cmd in cloud_config.commands %}
+  - {{ cmd }}  
+{% endfor %}
+{% endif %}
+{% if cloud_config.poweroff is defined and cloud_config.poweroff is sameas true %}
+  - sleep 5
+  - poweroff
+{% endif %}
+{% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
+  - sleep 5
+  - reboot
+{% endif %}

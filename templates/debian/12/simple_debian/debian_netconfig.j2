@@ -1,0 +1,15 @@
+{% set cloud_config = cloud_localds.cloud_config %}
+version: 2
+ethernets:
+{% if cloud_config.network.interface is defined %}
+  {{ cloud_config.network.interface.name }}:
+     addresses: [ {{  cloud_config.network.interface.address }} ]
+     gateway4: {{ cloud_config.network.interface.gateway }}
+     nameservers:
+{% if cloud_config.network.dns_search is defined %}
+       search: [ {{ cloud_config.network.dns_search }} ]
+{% endif %}
+{% if cloud_config.network.dns_nameservers is defined %}
+       addresses: [ {{ cloud_config.network.dns_nameservers }} ]
+{% endif %}
+{% endif %}
