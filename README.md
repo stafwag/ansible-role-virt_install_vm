@@ -1,14 +1,14 @@
 # Ansible Role: virt_install_vm
 
 An Ansible role to install a libvirt virtual machine with ```virt-install```
-and ```cloud-init```. It is "designed" to be flexible.\
+and ```cloud-init```. It is "designed" to be flexible.
 
 When you like this role, you might also like the
 
 * ***stafwag.delegated_vm_install*** [https://github.com/stafwag/ansible-role-delegated_vm_install](https://github.com/stafwag/ansible-role-delegated_vm_install) role. This role was developed as the basis for this role.
 
 Example [templates](templates/) are provided to set up a Debian 11 and a Debian 12 systems.
-The cloud-init templates should work with other (GNU)/Linux systems that supports cloud-init.\
+The cloud-init templates should work with other (GNU)/Linux systems that supports cloud-init.
 
 But there are (currently) only tested with Debian GNU/Linux.
 
