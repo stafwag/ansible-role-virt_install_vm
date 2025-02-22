@@ -47,7 +47,7 @@
           - "Sorry, {{ vm.hostname }} is already defined"
       when:
         - not _vm_status.failed
-        - _vm_status.exception.msg is not regex(".*not found.*")
+        - _vm_status.exception.msg | default("") is not regex(".*not found.*")
 
     - name: "Include role"
       ansible.builtin.include_role:
