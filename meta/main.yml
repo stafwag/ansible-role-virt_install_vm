@@ -1,34 +1,36 @@
 ---
 galaxy_info:
   role_name: virt_install_vm
+  namespace: stafwag
   author: staf wagemakers <staf@wagemakers.be>
   description: An ansible role to create a virtual machine
   license: license (BSD, MIT)
-  min_ansible_version: 2.4
+  min_ansible_version: "2.4"
   platforms:
     - name: EL
       versions:
-        - all
+        - "all"
     - name: Fedora
       versions:
-        - all
+        - "all"
     - name: Debian
       versions:
-        - all
+        - "all"
     - name: Ubuntu
       versions:
-        - all
+        - "all"
     - name: opensuse
       versions:
-        - all
+        - "all"
     - name: SLES
       versions:
-        - all
-    - name: Archlinux
+        - "all"
+    - name: ArchLinux
       versions:
-        - all
+        - "all"
+
   galaxy_tags:
     - system
-    - cloud-init
+    - cloudinit
     - virtualization
 dependencies: []

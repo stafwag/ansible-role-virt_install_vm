@@ -10,10 +10,10 @@
         192.168.122.2/24
   pre_tasks:
     - name: Load the vm template
-      include_vars: debian_11_vm_template.yml
-    - name: display qemu_img
-      debug:
-        msg: 
-          - 'qemu_img: {{ qemu_img }}'
+      ansible.builtin.include_vars: debian_11_vm_template.yml
+    - name: Display qemu_img
+      ansible.builtin.debug:
+        msg:
+          - "qemu_img: {{ qemu_img }}"
   roles:
     - stafwag.virt_install_vm

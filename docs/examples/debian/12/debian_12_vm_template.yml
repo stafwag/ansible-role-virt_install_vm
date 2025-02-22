@@ -2,7 +2,7 @@
 qemu_img:
   dest: "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2"
   format: qcow2
-  src: "/Downloads/debian-12-generic-amd64-daily.qcow2"
+  src: "~/Downloads/debian-12-generic-amd64-daily.qcow2"
   size: "50G"
   owner: root
   group: kvm

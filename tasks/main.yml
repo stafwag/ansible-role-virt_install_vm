@@ -1,14 +1,14 @@
 ---
 - name: Set virt_install_vm_installed to false
-  set_fact:
+  ansible.builtin.set_fact:
     virt_install_vm_installed:
-      False
+      true
 
 - name: Display debug vars
-  debug:
+  ansible.builtin.debug:
     msg:
-      - "vm = {{ vm|default('not set (undefined)') }}"
-      - "virt_install_vm = {{ virt_install_vm|default('not set (undefined)') }}"
+      - "vm = {{ vm | default('not set (undefined)') }}"
+      - "virt_install_vm = {{ virt_install_vm | default('not set (undefined)') }}"
   tags:
     - debug
     - never
@@ -16,37 +16,41 @@
 - name: Detect if the vm is already defined
   block:
     - name: Get the vm status
-      virt:
+      community.libvirt.virt:
         command: status
         name: "{{ vm.hostname }}"
       register:
-        _vmStatus
-      ignore_errors: yes
+        _vm_status
+      ignore_errors: true
   rescue:
-    - debug:
+    - name: Display ok message
+      ansible.builtin.debug:
         msg:
           - "Failed to get the vm status"
           - "Which is a good thing"
 
 - name: Display the status
-  debug:
-    msg: "_vmStatus: {{ _vmStatus }}"
+  ansible.builtin.debug:
+    msg: "_vm_status: {{ _vm_status }}"
   tags:
     - debug
     - never
-        
+
 - name: Deploy the virtual machine
+  when:
+    - not virt_install_vm.skip_if_deployed|default(false) or
+      _vm_status.status is not defined
   block:
     - name: Fail if the vm is already defined
-      fail:
+      ansible.builtin.fail:
         msg:
           - "Sorry, {{ vm.hostname }} is already defined"
       when:
-        - not _vmStatus.failed
-        - _vmStatus.exception.msg is not regex(".*not found.*")
+        - not _vm_status.failed
+        - _vm_status.exception.msg | default("") is not regex(".*not found.*")
 
     - name: "Include role"
-      include_role:
+      ansible.builtin.include_role:
         name: "{{ myrole }}"
       loop:
         - stafwag.libvirt
@@ -57,15 +61,12 @@
         loop_var: myrole
 
     - name: Set virt_install_vm_installed to true
-      set_fact:
+      ansible.builtin.set_fact:
         virt_install_vm_installed:
-          True
-  when:
-    - not virt_install_vm.skip_if_deployed|default(false) or
-      _vmStatus.status is not defined
+          true
 
 - name: Display virt_install_vm_installed
-  debug:
+  ansible.builtin.debug:
     msg:
       - "virt_install_vm_installed: {{ virt_install_vm_installed }}"
   tags:
