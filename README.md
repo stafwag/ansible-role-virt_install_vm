@@ -41,12 +41,12 @@ Or follow the installation instruction for each role on Ansible Galaxy.
 
 ## Ansible galaxy
 
-The role is available on [Ansible Galaxy](https://galaxy.ansible.com/stafwag/virt_install_import).
+The role is available on [Ansible Galaxy](https://galaxy.ansible.com/stafwag/virt_install_vm).
 
 To install the role from Ansible Galaxy execute the command below.
 
 ```bash
-$ ansible-galaxy install stafwag.virt_install_import
+$ ansible-galaxy install stafwag.virt_install_vm
 ```
 
 ## Source Code
@@ -56,7 +56,7 @@ If you want to use the source code directly.
 Clone the role source code.
 
 ```bash
-$ git clone https://github.com/stafwag/ansible-role-virt_install_vm stafwag.virt_install_import
+$ git clone https://github.com/stafwag/ansible-role-virt_install_vm stafwag.virt_install_vm
 ```
 
 and put it into the [role search path](https://docs.ansible.com/ansible/2.4/playbooks_reuse_roles.html#role-search-path)
@@ -194,21 +194,21 @@ Playbook to setup a virtual machine:
 ```yaml
 ---
 - name: Install tstdebian2
-  hosts: kvmhost
+  hosts: localhost
   become: true
   vars:
     vm:
       hostname:
-        tstdebian2
+        tstdebian12
       ip_address:
-        192.168.123.2/24
+        192.168.122.3/24
   pre_tasks:
     - name: Load the vm template
-      include_vars: debian_vm_template.yml
-    - name: display qemu_img
-      debug:
-        msg: 
-          - "qemu_img: {{ qemu_img }}"
+      ansible.builtin.include_vars: debian_12_vm_template.yml
+    - name: Display qemu_img
+      ansible.builtin.debug:
+        msg:
+          - 'qemu_img: {{ qemu_img }}'
   roles:
     - stafwag.virt_install_vm
 ```
