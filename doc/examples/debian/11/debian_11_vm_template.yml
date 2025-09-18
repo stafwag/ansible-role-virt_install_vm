@@ -36,7 +36,7 @@ virt_install_import:
   wait: 0
   name: "{{ vm.hostname }}"
   os_type: Linux
-  os_variant: debian10
+  os_variant: debian11
   network: network:default
   graphics: vnc
   disks:
