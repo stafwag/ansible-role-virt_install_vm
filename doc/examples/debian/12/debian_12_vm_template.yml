@@ -6,7 +6,7 @@ qemu_img:
   size: "50G"
   owner: root
   group: kvm
-  mode: 660
+  mode: "0660"
 cloud_localds:
   dest: "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso"
   config_template: "templates/debian/12/simple_debian/debian.j2"
@@ -36,9 +36,9 @@ virt_install_import:
   wait: 0
   name: "{{ vm.hostname }}"
   os_type: Linux
-  os_variant: debian10
+  os_variant: debian12
   network: network:default
-  graphics: spice
+  graphics: vnc
   disks:
     - "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2,device=disk"
     - "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso,device=cdrom"
