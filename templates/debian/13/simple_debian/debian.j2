@@ -1,0 +1,38 @@
+{% set cloud_config = cloud_localds.cloud_config %}
+#cloud-config
+package_upgrade: false
+
+users:
+  - name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
+    groups: sudo
+{% if cloud_config.system_info.default_user.passwd is defined and cloud_config.system_info.default_user.passwd is not sameas false %}
+    lock_passwd: false
+    passwd: {{ cloud_config.system_info.default_user.passwd }}
+{% else %}
+    lock_passwd: true
+{% endif %}
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+{% if cloud_config.system_info.default_user.ssh_authorized_keys is defined %}
+    ssh_authorized_keys:
+{% for key in cloud_config.system_info.default_user.ssh_authorized_keys %}
+      - {{ key }}
+{% endfor %}
+{% endif %}
+
+runcmd:
+{% if cloud_config.commands is defined %}
+{% for cmd in cloud_config.commands %}
+  - {{ cmd }}
+{% endfor %}
+{% endif %}
+{% if cloud_config.poweroff is defined and cloud_config.poweroff is sameas true %}
+  - touch /root/poweroff_started
+  - sleep 5
+  - poweroff
+{% endif %}
+{% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
+  - touch /root/reboot_started
+  - sleep 5
+  - reboot
+{% endif %}

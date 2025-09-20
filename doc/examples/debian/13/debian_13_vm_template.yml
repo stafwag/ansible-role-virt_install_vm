@@ -1,0 +1,44 @@
+---
+qemu_img:
+  dest: "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2"
+  format: qcow2
+  src: "~/Downloads/debian-13-generic-amd64-daily.qcow2"
+  size: "50G"
+  owner: root
+  group: kvm
+  mode: "0660"
+cloud_localds:
+  dest: "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso"
+  config_template: "templates/debian/13/simple_debian/debian.j2"
+  network_config_template: "templates/debian/13/simple_debian/debian_netconfig.j2"
+  cloud_config:
+    system_info:
+      default_user:
+        name: ansible
+        ssh_authorized_keys:
+          - "{{lookup('file', '~/.ssh/ansible_ssh_key.pub') }}"
+    network:
+      dns_nameservers:
+        9.9.9.9
+      dns_search:
+        intern.local
+      interface:
+        name:
+          enp1s0
+        address:
+          "{{ vm.ip_address }}"
+        gateway:
+          192.168.122.1
+    disable_cloud_init: true
+    reboot:
+      true
+virt_install_import:
+  wait: 0
+  name: "{{ vm.hostname }}"
+  os_type: Linux
+  os_variant: debian13
+  network: network:default
+  graphics: none
+  disks:
+    - "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2,device=disk"
+    - "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso,device=cdrom"
