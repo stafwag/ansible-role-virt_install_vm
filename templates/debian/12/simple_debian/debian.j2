@@ -31,14 +31,16 @@ write_files:
 runcmd:
 {% if cloud_config.commands is defined %}
 {% for cmd in cloud_config.commands %}
-  - {{ cmd }}  
+  - {{ cmd }}
 {% endfor %}
 {% endif %}
 {% if cloud_config.poweroff is defined and cloud_config.poweroff is sameas true %}
+  - touch /root/poweroff_started
   - sleep 5
   - poweroff
 {% endif %}
 {% if cloud_config.reboot is defined and cloud_config.reboot is sameas true %}
+  - touch /root/reboot_started
   - sleep 5
   - reboot
 {% endif %}

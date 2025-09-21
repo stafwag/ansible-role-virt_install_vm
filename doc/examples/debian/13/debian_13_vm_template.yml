@@ -38,7 +38,7 @@ virt_install_import:
   os_type: Linux
   os_variant: debian13
   network: network:default
-  graphics: none
+  graphics: vnc
   disks:
     - "/var/lib/libvirt/images/{{ vm.hostname }}.qcow2,device=disk"
     - "/var/lib/libvirt/images/{{ vm.hostname }}_cloudinit.iso,device=cdrom"
