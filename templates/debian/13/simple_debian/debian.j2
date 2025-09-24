@@ -38,5 +38,4 @@ runcmd:
 {% endif %}
 {% if cloud_config.disable_cloud_init is defined and cloud_config.disable_cloud_init is sameas true %}
   - touch /etc/cloud/cloud-init.disabled
-  - echo "network: {config: disabled}" > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 {% endif %}

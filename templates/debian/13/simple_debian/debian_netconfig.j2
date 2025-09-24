@@ -4,7 +4,9 @@ ethernets:
 {% if cloud_config.network.interface is defined %}
   {{ cloud_config.network.interface.name }}:
      addresses: [ {{  cloud_config.network.interface.address }} ]
-     gateway4: {{ cloud_config.network.interface.gateway }}
+     routes:
+     - to: default
+       via: {{ cloud_config.network.interface.gateway }}
      nameservers:
 {% if cloud_config.network.dns_search is defined %}
        search: [ {{ cloud_config.network.dns_search }} ]
