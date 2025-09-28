@@ -1,0 +1,19 @@
+---
+- name: Install tstdebian13
+  hosts: localhost
+  become: true
+  vars:
+    vm:
+      hostname:
+        tstdebian13
+      ip_address:
+        192.168.122.4/24
+  pre_tasks:
+    - name: Load the vm template
+      ansible.builtin.include_vars: debian_13_vm_template.yml
+    - name: Display qemu_img
+      ansible.builtin.debug:
+        msg:
+          - 'qemu_img: {{ qemu_img }}'
+  roles:
+    - stafwag.virt_install_vm
