@@ -2,6 +2,10 @@
 #cloud-config
 package_upgrade: false
 
+{# Modifying the "system_info.default_user" is deprecated in recent cloud-init versions #}
+{# Create a new user based on system_info.default_user.name to ensure compatibility with existing virtual machine templates. #}
+{# Something we might want to review in the future #}
+
 users:
   - name: {{ cloud_config.system_info.default_user.name | default('debian')  }}
     groups: sudo
@@ -39,7 +43,7 @@ runcmd:
   - |
     touch /etc/cloud/cloud-init.disabled
   - |
-    echo 'network: {config: disabled}' >> /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
+    echo 'network: {config: disabled}' > /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
   - |
     reboot
 {% endif %}
