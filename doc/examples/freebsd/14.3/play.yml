@@ -5,12 +5,12 @@
   vars:
     vm:
       hostname:
-        tstdebian13
+        tstfreebsd14
       ip_address:
-        192.168.122.4/24
+        192.168.122.5/24
   pre_tasks:
     - name: Load the vm template
-      ansible.builtin.include_vars: debian_13_vm_template.yml
+      ansible.builtin.include_vars: freebsd_14_vm_template.yml
     - name: Display qemu_img
       ansible.builtin.debug:
         msg:
