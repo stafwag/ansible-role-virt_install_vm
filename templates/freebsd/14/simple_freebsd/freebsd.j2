@@ -15,7 +15,7 @@ users:
 {% else %}
     lock_passwd: true
 {% endif %}
-    shell: /bin/bash
+    shell: /bin/sh
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
 {% if cloud_config.system_info.default_user.ssh_authorized_keys is defined %}
     ssh_authorized_keys:
