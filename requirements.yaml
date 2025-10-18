@@ -1,0 +1,5 @@
+---
+- src: stafwag.libvirt
+- src: stafwag.qemu_img
+- src: stafwag.cloud_localds
+- src: stafwag.virt_install_import

@@ -15,4 +15,10 @@ These are ```cloud-init``` templates. Configure cloud image with ```cloud-init``
 
 * **Debian 12 (bookworm)**
 
-  [debian/12/simple_debian](debian/11/simple_debian) A cloud-init v2 template to set up a Debian 12 GNU/Linux system. The same templates should work with most GNU/Linux systems that support cloud-init v2.
+  [debian/12/simple_debian](debian/12/simple_debian) A cloud-init v2 template to set up a Debian 12 GNU/Linux system. The same templates should work with most GNU/Linux systems that support cloud-init v2.
+
+* **Debian 13 (trixie)**
+
+  [debian/13/simple_debian](debian/13/simple_debian) A cloud-init v2 template to set up a Debian 13 GNU/Linux system. The same templates should work with most GNU/Linux systems that support cloud-init v2.
+  Disabling the cloud-init services is done with ```runcmd```, as ```write-files``` prevent the network config from working. Don't use the ```default_user```, as updating the ```default_user``` settings is deprecated in
+  recent cloud-init versions.
